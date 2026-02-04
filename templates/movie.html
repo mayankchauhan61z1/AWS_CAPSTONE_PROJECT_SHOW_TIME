@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ movie_data.title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='movie.css') }}">
+</head>
+<body>
+
+  <div class="movie-container">
+    <div class="movie-poster"><img src="{{ url_for('static', filename=movie_data.poster) }}" alt="{{ movie_data.title }}"></div>
+    <div class="movie-description">
+      <h2>{{ movie_data.title }}</h2>
+      <p>{{ movie_data.description }}</p>
+    </div>
+  </div>
+
+  <div class="booking-section">
+    <h3>Book Your Ticket</h3>
+    <div class="select-row">
+    <label for="theater">Select Theater:</label>
+    <select id="theater">
+      {% for t in movie_data.theaters %}
+      <option>{{ t }}</option>
+      {% endfor %}
+    </select><br>
+
+    <label for="showtime">Select Show Time:</label>
+    <select id="showtime">
+      {% for s in movie_data.showtimes %}
+      <option>{{ s }}</option>
+      {% endfor %}
+    </select>
+    </div>
+    <div class="seat-matrix" id="seatMatrix"></div>
+
+    <button onclick="bookTicket()">Book Ticket</button>
+  </div>
+
+  <script src="{{ url_for('static', filename='movie.js')}}"></script>
+
+</body>
+</html>

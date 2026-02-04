@@ -1,0 +1,3 @@
+first run : .\venv\Scripts\activate
+for check   python -c "import flask; print(flask.__version__)"\
+for run     python app.py            
