@@ -1,14 +1,15 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import os
 from werkzeug.utils import secure_filename
 # remove comment when get dynamodb working
-import key_config as keys
+# import key_config as keys
 import boto3
 from botocore.exceptions import ClientError
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+
 app.config['UPLOAD_FOLDER'] = 'static/posters'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
@@ -18,12 +19,10 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 # DynamoDB connection
 #======================
 
-dynamodb = boto3.resource('dynamodb',
-    region_name='us-east-1',
-    aws_access_key_id=keys.AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=keys.AWS_SECRET_ACCESS_KEY,
-    aws_session_token=keys.AWS_SESSION_TOKEN,
-)
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+sns = boto3.client('sns', region_name='us-east-1')
+
+# dynomodbtable(create these tables in dynamodb manually)
 users_table = dynamodb.Table('users')
 admin_table = dynamodb.Table('admins')
 contact_table = dynamodb.Table('ContactForm')
@@ -34,13 +33,6 @@ contact_table = dynamodb.Table('ContactForm')
 
 SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:604665149129:aws_capstone_topic'
 
-sns = boto3.client(
-    'sns',
-    region_name='us-east-1',
-    aws_access_key_id=keys.AWS_ACCESS_KEY_ID,
-    aws_secret_access_key=keys.AWS_SECRET_ACCESS_KEY,
-    aws_session_token=keys.AWS_SESSION_TOKEN,
-)
 
 def send_notification(subject, message):
     """Helper function to publish a message to SNS topic"""
@@ -258,7 +250,7 @@ def admin_login():
     stored_password = response['Item']['password']
 
     if check_password_hash(stored_password, password):
-        return render_template('AdmiDashbord.html', name=response['Item']['name'])
+        return render_template('AdminDashbord.html', name=response['Item']['name'])
     else:
         return render_template('AdminL&S.html', msg="Wrong password")
 
