@@ -1,10 +1,7 @@
 import boto3
-import key_config as key
+# import key_config as key
 
-dynamodb = boto3.resource('dynamodb',
-                          aws_access_key_id=key.AWS_ACCESS_KEY_ID,
-                          aws_secret_access_key=key.AWS_SECRET_ACCESS_KEY,
-                          region_name='us-east-1')
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 # Check if table already exists
 
 
@@ -89,3 +86,4 @@ else:
 # print out some data about the table   
 # print("Table name: ",table.table_name)
 # print("Item count: ",table.item_count)
+
