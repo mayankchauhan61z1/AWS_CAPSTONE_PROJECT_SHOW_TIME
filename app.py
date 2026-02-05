@@ -193,7 +193,7 @@ def login():
     stored_password = response['Item']['password']
 
     if check_password_hash(stored_password, password):
-        return render_template('index.html', name=response['Item']['name'])
+        return render_template('index.html', name=response['Item']['name'], movies=movies)
     else:
         return render_template('L&S.html', msg="Wrong password")
 
@@ -250,7 +250,7 @@ def admin_login():
     stored_password = response['Item']['password']
 
     if check_password_hash(stored_password, password):
-        return render_template('AdminDashbord.html', name=response['Item']['name'])
+        return render_template('AdminDashbord.html', name=response['Item']['name'], movies=movies)
     else:
         return render_template('AdminL&S.html', msg="Wrong password")
 
@@ -329,3 +329,4 @@ def delete_movie(movie_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
