@@ -31,7 +31,7 @@ contact_table = dynamodb.Table('ContactForm')
 # SNS
 #=====================
 
-SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:605134450454:MovieTicketNotifications:e7007288-0540-481a-afb5-b50535ea1d07'
+SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:605134450454:MovieTicketNotifications'
 
 
 def send_notification(subject, message):
@@ -329,5 +329,6 @@ def delete_movie(movie_id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
